@@ -1,6 +1,6 @@
 shared:
   requires: [ ~commit, ~pr ]
-  image: centos
+  image: buildpack-deps
 jobs:
   # Jobs are defined by name.
   # All pipelines have "main" implicitly defined. The definitions in your
