@@ -1,11 +1,27 @@
 shared:
+  annotations:
+    screwdriver.cd/timeout: 2880
   requires: [ ~commit, ~pr ]
-  image: buildpack-deps 
+  image: centos 
+  environment:
+    MYSQL_HOST: <MySQLサーバのホスト名もしくはIP>
+    MYSQL_USER: <MySQLの接続ユーザ名>
+    MYSQL_PASSWD: <MySQLの接続ユーザパスワード>
+    MYSQL_DB: <テストDB名>
+    CPU: 8
+    MEM: 4368709120
+    LOW: 4
+    MEDIUM: 6
+    HIGH: 8
+    STEP_WIDTH: 891289600
+    TEST_DURATION: 30
+    TEST_WORKLOAD_001: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} --time=${TEST_DURATION} oltp_read_write run
 jobs:
-  # Jobs are defined by name.
-  # All pipelines have "main" implicitly defined. The definitions in your
-  # screwdriver.yaml file will override the implied defaults.
-  test:
+   run_test:
     steps:
-      - export: export GREETING="Hello, world 2!"
-      - hello: echo $GREETING
+     - sysbench-deploy: sudo yum install --enablerepo='epel' -y sysbench
+     - sysbench-verify: sysbench --help
+     - client-install: sudo yum install -y mysql-community-client
+     - conn-test: mysql -u ${MYSQL_USER} -p${MYSQL_PASSWD} -h ${MYSQL_HOST} -e "show variables like 'hostname';" 
+     - data-load: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} oltp_common prepare
+     - exec-work: ${TEST_WORKLOAD_001}
