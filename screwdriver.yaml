@@ -20,11 +20,11 @@ jobs:
    run_test:
     template: db-auto-tune/db-auto-tune-template@1.0.0
     steps:
-     - sysbench-download: wget -qO - https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | bash
-     - sysbench-deploy: apt-get install -y sysbench
-     - sysbench-verify: sysbench --help
-     - client-install: apt-get install -y default-mysql-client
-     - conn-test: mysql -u ${MYSQL_USER} -p${MYSQL_PASSWD} -h ${MYSQL_HOST} -e "show variables like 'hostname';" 
-     - db-create: mysql -u ${MYSQL_USER} -p${MYSQL_PASSWD} -h ${MYSQL_HOST} -e "drop database if exists ${MYSQL_DB}; create database ${MYSQL_DB};"
-     - data-load: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} oltp_common prepare
-     - exec-work: ${TEST_WORKLOAD_001}
+     - postsysbench-download: wget -qO - https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | bash
+     - postsysbench-deploy: apt-get install -y sysbench
+     - postsysbench-verify: sysbench --help
+     - postclient-install: apt-get install -y default-mysql-client
+     - postconn-test: mysql -u ${MYSQL_USER} -p${MYSQL_PASSWD} -h ${MYSQL_HOST} -e "show variables like 'hostname';" 
+     - postdb-create: mysql -u ${MYSQL_USER} -p${MYSQL_PASSWD} -h ${MYSQL_HOST} -e "drop database if exists ${MYSQL_DB}; create database ${MYSQL_DB};"
+     - postdata-load: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} oltp_common prepare
+     - postexec-work: ${TEST_WORKLOAD_001}
