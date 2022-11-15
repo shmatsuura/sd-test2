@@ -2,7 +2,7 @@ shared:
   annotations:
     screwdriver.cd/timeout: 2880
   requires: [ ~commit, ~pr ]
-  image: screamingudder/centos7-build-node:6.1.0
+  image: buildpack-deps
   environment:
     MYSQL_HOST: <MySQLサーバのホスト名もしくはIP>
     MYSQL_USER: <MySQLの接続ユーザ名>
@@ -19,9 +19,9 @@ shared:
 jobs:
    run_test:
     steps:
-     - sysbench-deploy: sudo yum install --enablerepo='epel' -y sysbench
+     - sysbench-deploy: apt-get install -y sysbench
      - sysbench-verify: sysbench --help
-     - client-install: sudo yum install -y mysql-community-client
+     - client-install: apt-get install mysql-community-client
      - conn-test: mysql -u ${MYSQL_USER} -p${MYSQL_PASSWD} -h ${MYSQL_HOST} -e "show variables like 'hostname';" 
      - data-load: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} oltp_common prepare
      - exec-work: ${TEST_WORKLOAD_001}
