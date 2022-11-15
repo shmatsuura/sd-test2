@@ -2,7 +2,6 @@ shared:
   annotations:
     screwdriver.cd/timeout: 2880
   requires: [ ~commit, ~pr ]
-<<<<<<< HEAD
   image: centos 
   environment:
     MYSQL_HOST: <MySQLサーバのホスト名もしくはIP>
@@ -17,9 +16,6 @@ shared:
     STEP_WIDTH: 891289600
     TEST_DURATION: 30
     TEST_WORKLOAD_001: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} --time=${TEST_DURATION} oltp_read_write run
-=======
-  image: buildpack-deps
->>>>>>> 93ca60dfaf39ace6bf1341b455f66ee6f73610d4
 jobs:
    run_test:
     steps:
