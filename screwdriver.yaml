@@ -2,7 +2,7 @@ shared:
   annotations:
     screwdriver.cd/timeout: 2880
   requires: [ ~commit, ~pr ]
-  image: buildpack-deps 
+  image: screamingudder/centos7-build-node:6.1.0
   environment:
     MYSQL_HOST: <MySQLサーバのホスト名もしくはIP>
     MYSQL_USER: <MySQLの接続ユーザ名>
