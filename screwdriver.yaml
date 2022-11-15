@@ -14,11 +14,11 @@ shared:
     MEDIUM: 6
     HIGH: 8
     STEP_WIDTH: 891289600
-    TEST_DURATION: 30
+    TEST_DURATION: 120
     TEST_WORKLOAD_001: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} --time=${TEST_DURATION} oltp_read_write run
 jobs:
    run_test:
-    template: db-auto-tune/db-auto-tune-template@1.0.0
+    #template: db-auto-tune/db-auto-tune-template@1.0.0
     order: [install, sysbench-download, sysbench-deploy, sysbench-verify, client-install, conn-test, db-create, data-load, exec-work]
     steps:
      - sysbench-download: wget -qO - https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | bash
