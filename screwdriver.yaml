@@ -4,10 +4,10 @@ shared:
   requires: [ ~commit, ~pr ]
   image: buildpack-deps
   environment:
-    MYSQL_HOST: <MySQLサーバのホスト名もしくはIP>
-    MYSQL_USER: <MySQLの接続ユーザ名>
-    MYSQL_PASSWD: <MySQLの接続ユーザパスワード>
-    MYSQL_DB: <テストDB名>
+    MYSQL_HOST: 20.222.205.247
+    MYSQL_USER: test
+    MYSQL_PASSWD: test
+    MYSQL_DB: test
     CPU: 8
     MEM: 4368709120
     LOW: 4
