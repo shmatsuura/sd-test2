@@ -19,6 +19,7 @@ shared:
 jobs:
    run_test:
     steps:
+     - sysbench-download: wget -qO - https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | sudo bash
      - sysbench-deploy: apt-get install -y sysbench
      - sysbench-verify: sysbench --help
      - client-install: apt-get install mysql-community-client
