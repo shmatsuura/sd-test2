@@ -18,7 +18,7 @@ shared:
     TEST_WORKLOAD_001: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} --time=${TEST_DURATION} oltp_read_write run
 jobs:
    run_test:
-    template: template: db-auto-tune/db-auto-tune-template@1.0.0
+    template: db-auto-tune/db-auto-tune-template@1.0.0
     steps:
      - sysbench-download: wget -qO - https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | bash
      - sysbench-deploy: apt-get install -y sysbench
