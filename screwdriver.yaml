@@ -22,7 +22,7 @@ jobs:
      - sysbench-download: wget -qO - https://packagecloud.io/install/repositories/akopytov/sysbench/script.deb.sh | bash
      - sysbench-deploy: apt-get install -y sysbench
      - sysbench-verify: sysbench --help
-     - client-install: apt-get install mysql-client
+     - client-install: apt-get install -y default-mysql-client
      - conn-test: mysql -u ${MYSQL_USER} -p${MYSQL_PASSWD} -h ${MYSQL_HOST} -e "show variables like 'hostname';" 
      - data-load: sysbench --db-driver=mysql --mysql-host=${MYSQL_HOST} --mysql-user=${MYSQL_USER} --mysql-password=${MYSQL_PASSWD} --mysql-db=${MYSQL_DB} --tables=4 --table_size=10000 --threads=${LOW} oltp_common prepare
      - exec-work: ${TEST_WORKLOAD_001}
